@@ -20,6 +20,7 @@ class Api:
                                 "password": "%s" } } """ % (user, key)
         self.session_key = self._getJSON(data)['result']
 
+    # Standard post request
     def _getJSON(self, data):
         headers = {'content-type': 'application/json',
                    'connection': 'Keep-Alive'}
@@ -87,14 +88,14 @@ class Api:
     def list_surveys(self):
         json_list_surveys = self._list_surveys()
 
-        encuestas = []
+        surveys = []
         for e in json_list_surveys:
-            encuesta = e['sid'], e['surveyls_title']
+            survey = e['sid'], e['surveyls_title']
             # Me quedo con el SID y el Titulo
 
-            encuestas.append(encuesta)
+            surveys.append(survey)
 
-        return encuestas
+        return surveys
 
     def _list_surveys(self):
         """Devuelve el JSON ENTERO"""
@@ -155,13 +156,13 @@ class Api:
                         } } """ % (self.session_key, sid, token)
         return self._getJSON(data)['result']
 
-    def _add_response(self, sid, datos):
+    def _add_response(self, sid, rdata):
         data = """ {          "id": 1,
                               "method":"add_response",
                               "params": { "sSessionKey": "%s",
                                           "iSurveyID": %s,
                                           "aResponseData": %s }
-                    } """ % (self.session_key, sid, datos)
+                    } """ % (self.session_key, sid, rdata)
         return self._getJSON(data)['result']
 
     def importar_desde_archivo(self, sid, archivo):
@@ -189,12 +190,12 @@ class Api:
     def list_groups(self, sid):
         json_list_groups = self._list_groups(sid)
 
-        grupos = []
+        groups = []
         for g in json_list_groups:
-            grupo = g['id']['gid'], g['group_name']
-            grupos.append(grupo)
+            group = g['id']['gid'], g['group_name']
+            groups.append(group)
 
-        return grupos
+        return groups
 
     def _list_questions(self, sid, gid):
         data = """ {          "method":"list_questions",
