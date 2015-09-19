@@ -5,12 +5,12 @@ import base64  # para encodear la subida de surveys
 import config
 
 # Authentication
-usuario = config.LIME_USER
-clave = config.LIME_KEY
+user = config.LIME_USER
+key = config.LIME_KEY
 url = config.LIME_API_URL
 
 # Build the API
-lime = Api(url, usuario, clave)
+lime = Api(url, user, key)
 
 # SET TOKEN BASE and Survey
 sid = config.LIME_SID

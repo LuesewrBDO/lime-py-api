@@ -2,40 +2,30 @@
 # -*- coding: utf-8 -*-
 
 
-import json
+# import json
 import sys
-
-try:
-    import urllib.request as urllib2
-except ImportError:
-    import urllib2
-from csv import DictReader
+import requests
 from time import sleep
 
 
 class Api:
-    def __init__(self, url, user, pw):
+    def __init__(self, url, user, key):
         self.url = url
         self._user = user
-        self._password = pw
+        self._password = key
 
         data = """{   "id": 1,
                     "method": "get_session_key",
                     "params": { "username": "%s",
-                                "password": "%s" } } """ % (user, pw)
+                                "password": "%s" } } """ % (user, key)
+        self.session_key = self._getJSON(data)['result']
 
-        self.session_key = self._obtenerJson(data)['result']
-
-    def _obtenerJson(self, data):
-        req = urllib2.Request(url=self.url, data=data)
-        req.add_header('content-type', 'application/json')
-        req.add_header('connection', 'Keep-Alive')
-
+    def _getJSON(self, data):
+        headers = {'content-type': 'application/json',
+                   'connection': 'Keep-Alive'}
         try:
-            f = urllib2.urlopen(req)
-            response = f.read()
-            return json.loads(response)
-
+            req = requests.post(self.url, data=data, headers=headers)
+            return(req.json())
         except:
             e = sys.exc_info()[0]
             print ("<p>Error: %s</p>" % e)
@@ -46,7 +36,7 @@ class Api:
                     "params": { "sSessionKey": "%s",
                                 "iSurveyID": %s } }""" % (self.session_key,
                                                           sid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def set_survey_property(self, sid, prop, value):
         data = """{ "id": 1,
@@ -55,7 +45,7 @@ class Api:
                                 "iSurveyID": %s,
                                 "aSurveySettings": { "%s": "%s" }
             } }""" % (self.session_key, sid, prop, value)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def get_survey_properties(self, sid, settings=None):
 
@@ -83,7 +73,7 @@ class Api:
                                 "iSurveyID": %s,
                                 "aSurveySettings": %s
             } }""" % (self.session_key, sid, settings)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def get_summary(self, sid):
         data = """{ "id": 1,
@@ -92,7 +82,7 @@ class Api:
                                 "iSurveyID": %s,
                                 "sStatname": "all" } }""" % (self.session_key,
                                                              sid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def list_surveys(self):
         json_list_surveys = self._list_surveys()
@@ -112,14 +102,14 @@ class Api:
                     "method": "list_surveys",
                     "params": { "sSessionKey": "%s" } }""" % (self.session_key)
 
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def activate_survey(self, sid):
         data = """{ "id": 1,
                     "method": "activate_survey",
                     "params": { "sSessionKey": "%s",
                                 "SurveyID": %s } }""" % (self.session_key, sid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def import_survey(self, datos, titulo, sid, tipo='lss'):
         data = """{ "id": 1,
@@ -130,13 +120,13 @@ class Api:
                                 "sNewSurveyName": "%s",
                                 "DestSurveyID": %d } }""" \
                % (self.session_key, datos, tipo, titulo, sid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def release_session_key(self):
         data = """ { "method": "release_session_key",
                      "params": { "sSessionKey" : "%s"},
                      "id":1}' }""" % (self.session_key)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def export_responses(self, sid):
         data = """ {    "id" : 1,
@@ -149,7 +139,7 @@ class Api:
                                     "sHeadingType": "code",
                                     "sResponseType": "long"
                         } } """ % (self.session_key, sid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def export_responses_by_token(self, sid, token):
         data = """ {    "id" : 1,
@@ -163,7 +153,7 @@ class Api:
                                     "sHeadingType": "code",
                                     "sResponseType": "long"
                         } } """ % (self.session_key, sid, token)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def _add_response(self, sid, datos):
         data = """ {          "id": 1,
@@ -172,7 +162,7 @@ class Api:
                                           "iSurveyID": %s,
                                           "aResponseData": %s }
                     } """ % (self.session_key, sid, datos)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def importar_desde_archivo(self, sid, archivo):
         """Esto no funciona!"""
@@ -194,7 +184,7 @@ class Api:
                               "params": { "sSessionKey": "%s",
                                           "iSurveyID": %s },
                             "id": 1 } """ % (self.session_key, sid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def list_groups(self, sid):
         json_list_groups = self._list_groups(sid)
@@ -212,7 +202,7 @@ class Api:
                                           "iSurveyID": %s,
                                           "iGroupID": %s },
                             "id": 1 } """ % (self.session_key, sid, gid)
-        return self._obtenerJson(data)['result']
+        return self._getJSON(data)['result']
 
     def list_questions(self, sid, gid):
         json_list_questions = self._list_questions(sid, gid)
