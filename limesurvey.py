@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
+from base64 import b64decode
 # import json
 import sys
 import requests
@@ -140,7 +140,7 @@ class Api:
                                     "sHeadingType": "code",
                                     "sResponseType": "long"
                         } } """ % (self.session_key, sid)
-        return self._getJSON(data)['result']
+        return b64decode(self._getJSON(data)['result'])
 
     def export_responses_by_token(self, sid, token):
         data = """ {    "id" : 1,
