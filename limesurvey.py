@@ -112,7 +112,7 @@ class Api:
                                 "SurveyID": %s } }""" % (self.session_key, sid)
         return self._getJSON(data)['result']
 
-    def import_survey(self, datos, titulo, sid, tipo='lss'):
+    def import_survey(self, idata, title, sid, type='lss'):
         data = """{ "id": 1,
                     "method": "import_survey",
                     "params": { "sSessionKey": "%s",
@@ -120,7 +120,7 @@ class Api:
                                 "sImportDataType": "%s",
                                 "sNewSurveyName": "%s",
                                 "DestSurveyID": %d } }""" \
-               % (self.session_key, datos, tipo, titulo, sid)
+               % (self.session_key, idata, type, title, sid)
         return self._getJSON(data)['result']
 
     def release_session_key(self):
