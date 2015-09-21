@@ -135,7 +135,7 @@ class Api:
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
-                                    "sLanguageCode": "ca",
+                                    "sLanguageCode": "en",
                                     "sCompletionStatus": "%s",
                                     "sHeadingType": "%s",
                                     "sResponseType": "%s",
@@ -152,7 +152,7 @@ class Api:
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
                                     "sToken":  "%s",
-                                    "$sLanguageCode": "ca",
+                                    "$sLanguageCode": "en",
                                     "sCompletationStatus": "all",
                                     "sHeadingType": "code",
                                     "sResponseType": "short"
