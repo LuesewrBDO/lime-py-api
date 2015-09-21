@@ -136,9 +136,9 @@ class Api:
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
                                     "sLanguageCode": "ca",
-                                    "sCompletionStatus":"complete",
+                                    "sCompletionStatus":"all",
                                     "sHeadingType": "code",
-                                    "sResponseType": "long"
+                                    "sResponseType": "short",
                         } } """ % (self.session_key, sid)
         out = b64decode(self._getJSON(data)['result']).decode('utf-8')
         return json.loads(out)
@@ -153,7 +153,7 @@ class Api:
                                     "$sLanguageCode": "ca",
                                     "sCompletationStatus": "all",
                                     "sHeadingType": "code",
-                                    "sResponseType": "long"
+                                    "sResponseType": "short"
                         } } """ % (self.session_key, sid, token)
         return self._getJSON(data)['result']
 
