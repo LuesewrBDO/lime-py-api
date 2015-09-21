@@ -1,6 +1,7 @@
 lime-py-api
 ===========
 
-Glue entre la API de Limesurvey y Python
+LimeSurvey API - Python 3 glue
 
-La idea es separar el desarrollo de una interfaz Python para la API de limesurvey del proyecto de distribucion de encuestas para uso offline.
+Forked from flabe81's repo, some tweaks and (not fully) translated to english.
+Feel free to open an issue or suggest pull requests
