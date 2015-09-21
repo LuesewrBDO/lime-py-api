@@ -129,17 +129,17 @@ class Api:
                      "id":1}' }""" % (self.session_key)
         return self._getJSON(data)['result']
 
-    def export_responses(self, sid):
+    def export_responses(self, sid, status='all', heading='code', response='short'):
         data = """ {    "id" : 1,
                         "method":"export_responses",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
                                     "sLanguageCode": "ca",
-                                    "sCompletionStatus":"all",
-                                    "sHeadingType": "code",
-                                    "sResponseType": "short",
-                        } } """ % (self.session_key, sid)
+                                    "sCompletionStatus": %s,
+                                    "sHeadingType": %s,
+                                    "sResponseType": %s,
+                        } } """ % (self.session_key, sid, status, heading, response)
         out = b64decode(self._getJSON(data)['result']).decode('utf-8')
         return json.loads(out)
 
@@ -209,9 +209,9 @@ class Api:
     def list_questions(self, sid, gid):
         json_list_questions = self._list_questions(sid, gid)
 
-        preguntas = []
+        questions = []
         for q in json_list_questions:
-            pregunta = q['id']['qid'], q['question']
-            preguntas.append(pregunta)
+            question = q['id']['qid'], q['question']
+            questions.append(question)
+        return questions
 
-        return preguntas
