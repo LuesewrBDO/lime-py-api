@@ -129,17 +129,19 @@ class Api:
                      "id":1}' }""" % (self.session_key)
         return self._getJSON(data)['result']
 
-    def export_responses(self, sid, status='all', heading='code', response='short'):
+    def export_responses(self, sid, status='all', heading='code', response='short', fields=''):
         data = """ {    "id" : 1,
                         "method":"export_responses",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
                                     "sLanguageCode": "ca",
-                                    "sCompletionStatus": %s,
-                                    "sHeadingType": %s,
-                                    "sResponseType": %s,
-                        } } """ % (self.session_key, sid, status, heading, response)
+                                    "sCompletionStatus": "%s",
+                                    "sHeadingType": "%s",
+                                    "sResponseType": "%s",
+                                    "aFields": "%s"
+                        } } """ % (self.session_key, sid, status, heading, response, fields)
+        print(data)
         out = b64decode(self._getJSON(data)['result']).decode('utf-8')
         return json.loads(out)
 
