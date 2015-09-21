@@ -137,7 +137,7 @@ class Api:
                                     "sDocumentType": "json",
                                     "sLanguageCode": "ca",
                                     "sCompletionStatus":"all",
-                                    "sHeadingType": "code",
+                                    "sHeadingType": "full",
                                     "sResponseType": "long"
                         } } """ % (self.session_key, sid)
         return b64decode(self._getJSON(data)['result'])
