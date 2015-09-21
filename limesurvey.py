@@ -136,8 +136,8 @@ class Api:
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
                                     "sLanguageCode": "ca",
-                                    "sCompletionStatus":"all",
-                                    "sHeadingType": "full",
+                                    "sCompletionStatus":"complete",
+                                    "sHeadingType": "code",
                                     "sResponseType": "long"
                         } } """ % (self.session_key, sid)
         out = b64decode(self._getJSON(data)['result']).decode('utf-8')
