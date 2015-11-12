@@ -85,26 +85,6 @@ class Api:
                                                              sid)
         return self._getJSON(data)['result']
 
-    def list_surveys(self):
-        json_list_surveys = self._list_surveys()
-
-        surveys = []
-        for e in json_list_surveys:
-            survey = e['sid'], e['surveyls_title']
-            # Me quedo con el SID y el Titulo
-
-            surveys.append(survey)
-
-        return surveys
-
-    def _list_surveys(self):
-        """Devuelve el JSON ENTERO"""
-        data = """{ "id": 1,
-                    "method": "list_surveys",
-                    "params": { "sSessionKey": "%s" } }""" % (self.session_key)
-
-        return self._getJSON(data)['result']
-
     def activate_survey(self, sid):
         data = """{ "id": 1,
                     "method": "activate_survey",
@@ -217,3 +197,22 @@ class Api:
             questions.append(question)
         return questions
 
+    def list_surveys(self, sUser=''):
+        data = """ { "id" : 1,
+                     "method":"list_surveys",
+                     "params": { "sSessionKey": "%s", "sUsername": "%s"} 
+                     } """ % (self.session_key, sUser)
+        return self._getJSON(data)['result']
+
+    def list_participants(self, sid, iStart=0, iLimit=1000000, bUnused='true', aAttributes='true', aConditions='array()'):
+        data = """ {    "id" : 1,
+                        "method":"list_participants",
+                        "params": { "sSessionKey": "%s",
+                                    "iSurveyID":  %s,
+                                    "iStart": %s,
+                                    "iLimit": %s,
+                                    "bUnused": "%s",
+                                    "aAttributes": "%s",
+                                    "aConditions": "%s"
+                        } } """ % (self.session_key, sid, iStart, iLimit, bUnused, aAttributes, aConditions)
+        return self._getJSON(data)['result']
