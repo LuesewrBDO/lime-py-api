@@ -30,3 +30,10 @@ if export_res is not None:
     decoded_string = base64.b64decode(export_res)
     with open("Output.json", "w") as text_file:
         text_file.write(decoded_string)
+
+# get json object of surveys on the lime url
+survey_res = lime.list_surveys(user)
+
+# one can simply import json_normalize from pandas to normalize the json object
+# from pandas.io.json import json_normalize
+# survey_res_list = json_normalize(survey_res)
