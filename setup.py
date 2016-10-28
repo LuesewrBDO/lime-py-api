@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='Limesurvey API',
+setup(name='LimeSurvey API',
       version='1.0',
       description='Python Distribution Utilities',
       author='',
