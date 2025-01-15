@@ -1,20 +1,20 @@
 #!/usr/bin/python
 
-from limesurvey import Api
+from limepy.api import Api
 import base64  # para encodear la subida de surveys
-import config
+import config_example
 
 # Authentication
-user = config.LIME_USER
-key = config.LIME_KEY
-url = config.LIME_API_URL
+user = config_example.LIME_USER
+key = config_example.LIME_KEY
+url = config_example.LIME_API_URL
 
 # Build the API
 lime = Api(url, user, key)
 
 # SET TOKEN BASE and Survey
-sid = config.LIME_SID
-token = config.LIME_TOKEN_BASE
+sid = config_example.LIME_SID
+token = config_example.LIME_TOKEN_BASE
 
 # GET data - token
 export_res_token = lime.export_responses_by_token(sid, token)
